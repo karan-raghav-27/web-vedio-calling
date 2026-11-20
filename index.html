@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11100e">
+    <meta name="description" content="A private, two-person video call.">
+    <title>Sarkaar — Private Video Call</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="welcome-backdrop" id="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+      <div class="welcome-card">
+        <div class="crown" aria-hidden="true">♛</div>
+        <p class="eyebrow">YOUR PRIVATE COURT AWAITS</p>
+        <h1 id="welcome-title">WELCOME SARKAAR <span aria-hidden="true">👑</span></h1>
+        <p class="welcome-copy">A private room for two. No accounts, no recordings.</p>
+        <button class="button button-gold enter-button" id="enter-button" type="button">Enter</button>
+      </div>
+    </div>
+
+    <main class="app-shell" id="app-shell" hidden>
+      <header class="topbar">
+        <a class="wordmark" href="/" aria-label="Sarkaar home"><span class="wordmark-crown">♛</span> SARKAAR</a>
+        <div class="privacy-badge" title="WebRTC encrypts call media and data between browsers">
+          <span class="lock-icon" aria-hidden="true">▣</span> End-to-end encrypted
+        </div>
+      </header>
+
+      <section class="intro">
+        <div>
+          <p class="eyebrow">A PRIVATE ROOM FOR TWO</p>
+          <h2>Make it a face-to-face.</h2>
+        </div>
+        <p class="intro-note">No sign-up. No recordings. Your call stays between you.</p>
+      </section>
+
+      <section class="room-toolbar" aria-label="Room controls">
+        <button class="button button-gold" id="create-room-button" type="button">＋ Create room</button>
+        <div class="share-controls">
+          <label class="sr-only" for="room-link">Your private room link</label>
+          <input id="room-link" type="text" readonly placeholder="Create a room to get your private link">
+          <button class="button button-outline" id="copy-link-button" type="button" disabled>Copy link</button>
+        </div>
+        <div class="status-wrap" aria-live="polite">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="connection-status">Waiting</span>
+        </div>
+      </section>
+
+      <p class="error-message" id="error-message" role="alert" hidden></p>
+
+      <section class="call-layout" aria-label="Video call">
+        <div class="video-column">
+          <div class="video-stage">
+            <video class="remote-video" id="remote-video" autoplay playsinline></video>
+            <div class="remote-placeholder" id="remote-placeholder">
+              <span class="placeholder-crown" aria-hidden="true">♛</span>
+              <p>Waiting for someone to join</p>
+              <span class="placeholder-hint">Share your private room link to invite them.</span>
+            </div>
+            <div class="local-preview">
+              <video id="local-video" autoplay muted playsinline></video>
+              <span>You</span>
+            </div>
+            <span class="call-encryption-label"><span aria-hidden="true">▣</span> PRIVATE CALL</span>
+          </div>
+
+          <div class="call-controls" aria-label="Call controls">
+            <button class="control-button" id="mic-button" type="button" disabled>
+              <span class="control-icon" aria-hidden="true">♬</span><span>Mute mic</span>
+            </button>
+            <button class="control-button" id="camera-button" type="button" disabled>
+              <span class="control-icon" aria-hidden="true">◉</span><span>Turn camera off</span>
+            </button>
+            <button class="control-button" id="share-screen-button" type="button" disabled>
+              <span class="control-icon" aria-hidden="true">▱</span><span>Share screen</span>
+            </button>
+            <button class="control-button hangup-button" id="hangup-button" type="button" disabled>
+              <span class="control-icon" aria-hidden="true">☎</span><span>Hang up</span>
+            </button>
+          </div>
+
+          <div class="device-row">
+            <label>Microphone
+              <select id="microphone-select" aria-label="Choose microphone" disabled>
+                <option value="">Default microphone</option>
+              </select>
+            </label>
+            <label>Camera
+              <select id="camera-select" aria-label="Choose camera" disabled>
+                <option value="">Default camera</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <aside class="chat-panel" aria-label="Private chat">
+          <div class="chat-heading">
+            <div>
+              <p class="eyebrow">JUST BETWEEN YOU</p>
+              <h3>Messages</h3>
+            </div>
+            <span class="chat-lock" title="Messages use the encrypted peer-to-peer data channel" aria-label="Encrypted peer-to-peer chat">▣</span>
+          </div>
+          <div class="chat-messages" id="chat-messages" aria-live="polite">
+            <p class="chat-empty" id="chat-empty">Your messages will appear here during the call. They are not sent through the server.</p>
+          </div>
+          <form class="chat-form" id="chat-form">
+            <label class="sr-only" for="chat-input">Write a message</label>
+            <input id="chat-input" type="text" maxlength="2000" placeholder="Write a message..." autocomplete="off" disabled>
+            <button class="send-button" id="send-chat-button" type="submit" aria-label="Send message" disabled>↑</button>
+          </form>
+        </aside>
+      </section>
+
+      <p class="privacy-note">
+        WebRTC encrypts media and chat between browsers. The signaling server sees room IDs and connection details (including network addresses), but does not receive call media or chat. Room links do not verify identity, so only share yours with someone you trust.
+      </p>
+    </main>
+  </body>
+</html>
